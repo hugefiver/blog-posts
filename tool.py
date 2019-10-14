@@ -61,22 +61,33 @@ def new_post(title: str, num=None):
 
 
 def make_readme():
-    a_post = '- [{title}]({file})'
+    header = '| No | Title | Date |\n| --- | --- | --- |\n'
+    a_post = '| {number} | [{title}]({file}) | {date} |'
     files = get_files_name(POST_PATH)
     post_tuples = []
 
     title_patt = re.compile(r'^\s*title\s*:\s*([\S]*\S)\s?$', re.M)
+    date_patt = re.compile(r'^\s*date\s*:\s*([\d\-]+\s*[\d:]+)\s?$', re.M)
+    file_patt = re.compile(filename_patt)
 
     for filename in files:
+        first_or_empty = lambda l, group=0: l[group] if l else ''
+
         title = ''
+        date = ''
+        number = first_or_empty(file_patt.match(filename), 1)
+
         with open(os.path.join(POST_PATH, filename), 'r', encoding='utf-8') as file:
-            title = title_patt.findall(file.read())[0]
-        post_tuples.append((title or 'untitled', os.path.join  ('.', 'posts', filename)))
+            text = file.read()
+            title = first_or_empty(title_patt.findall(text))
+            date = first_or_empty(date_patt.findall(text))
+
+        post_tuples.append((number, title or 'untitled', os.path.join('.', 'posts', filename), date))
     
     post_tuples.sort(key=lambda t: t[1])
-    toc = '\n'.join(
+    toc = header + '\n'.join(
         map(
-            lambda t: a_post.format(title=t[0], file=t[1]),
+            lambda t: a_post.format(number=t[0], title=t[1], file=t[2], date=t[3]),
             post_tuples
         )
     )
