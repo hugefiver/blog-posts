@@ -84,7 +84,7 @@ def make_readme():
 
         post_tuples.append((number, title or 'untitled', os.path.join('.', 'posts', filename), date))
     
-    post_tuples.sort(key=lambda t: t[0])
+    post_tuples.sort(key=lambda t: int(t[0]))
     toc = header + '\n'.join(
         map(
             lambda t: a_post.format(number=t[0], title=t[1], file=t[2], date=t[3]),
