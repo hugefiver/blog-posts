@@ -84,7 +84,7 @@ def make_readme():
 
         post_tuples.append((number, title or 'untitled', os.path.join('.', 'posts', filename), date))
     
-    post_tuples.sort(key=lambda t: t[0])
+    post_tuples.sort(key=lambda t: int(t[0]))
     toc = header + '\n'.join(
         map(
             lambda t: a_post.format(number=t[0], title=t[1], file=t[2], date=t[3]),
@@ -100,23 +100,24 @@ def main(args: list):
     load_template()
     if args[0].lower() == 'new':
         if len(args) < 2:
-            print('need title.')
+            print('Need title.')
             os.sys.exit(2)
         title = args[1]
         num = None
         if len(args) >= 3 and re.match(r'^\d+$', args[2]):
             num = int(args[2])
         new_post(title, num)
-        print(f'create successfully: {title}')
+        print(f'Create successfully: {title}')
     elif args[0].lower() == 'readme':
         make_readme()
+        print('Make README.md Successfully.')
     else:
-        print('no command named {}'.format(args[0]))
+        print('No command named {}'.format(args[0]))
 
 
 if __name__ == "__main__":
     argv = os.sys.argv
     if len(argv) < 2:
-        print('need more argv.')
+        print('Need more argv.')
         os.sys.exit(1)
     main(argv[1:])
