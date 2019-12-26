@@ -5,6 +5,7 @@ import time
 import re
 from re import Pattern, Match
 
+
 BASE_PATH = os.path.abspath(os.path.dirname(__file__))
 POST_PATH = os.path.join(BASE_PATH, 'posts')
 
@@ -24,7 +25,6 @@ def load_template():
     with open(os.path.join(BASE_PATH, 'templates', 'readme_template.md'), 'r', encoding='utf-8') as f:
         readme_template = f.read()
     
-
 
 def get_files_name(path):
     sub_nodes = os.listdir(path)
@@ -82,7 +82,7 @@ def make_readme():
             title = first_or_empty(title_patt.findall(text))
             date = first_or_empty(date_patt.findall(text))
 
-        post_tuples.append((number, title or 'untitled', os.path.join('.', 'posts', filename), date))
+        post_tuples.append((number, title or 'untitled', '/'.join(('.', 'posts', filename)), date))
     
     post_tuples.sort(key=lambda t: int(t[0]))
     toc = header + '\n'.join(
