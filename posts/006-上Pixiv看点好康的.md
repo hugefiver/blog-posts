@@ -47,6 +47,9 @@ tags:
   127.0.0.1	imp.pixiv.net
   127.0.0.1	sketch.pixiv.net
   127.0.0.1	accounts.pixiv.net
+  127.0.0.1	i.pximg.net
+  127.0.0.1	s.pximg.net
+  127.0.0.1	pixiv.pximg.net
   ```
 
 ### 生成证书并安装
