@@ -159,7 +159,7 @@ tags:
    }
    ```
    
-5. 之后我们在浏览器打开 `https://www.pixiv.net/` 即可访问P站。
+5. 双击打开 `v2ray`，之后我们在浏览器打开 `https://www.pixiv.net/` 即可访问P站。
 
 ## 写在后面
 
