@@ -10,6 +10,10 @@ tags:
 终于可以愉快的康P站了。
 <!--more-->
 
+> 2020/01/12 更新
+> 
+> 现在可以用于Discord了。
+
 ## 原理
 
 众所周知，一个神秘力量使得在中国访问一些网站时会出现不正常的访问出错。所以我们在康Pixiv的时候往往要借助一些特殊手段。这篇文章介绍一个不太一样的方法。
@@ -124,7 +128,8 @@ tags:
        "streamSettings": {
            "security": "tls",
            "tlsSettings": {
-               "serverName": "csust.xyz", // 将SNI信息
+               // 这一行不需要。
+               //  "serverName": "csust.xyz", // 将SNI信息
                "allowInsecure": true,
                "alpn": [
                    "h2",
@@ -154,7 +159,9 @@ tags:
    ```json
    {
        "hosts": {
+           "geosite:discord": "162.159.135.233",
            "geosite:pixiv": "210.140.131.222" // 方法一：在此处填入正确的IP
+           
        },
        "servers": [
            "1.1.1.1" // 方法二：在此处填入纯净的DNS服务器
@@ -173,6 +180,10 @@ tags:
 其实老早之前就看过了这篇文章了，当时我准备作为 [GoPSP][psp] 项目的实现方法尝试了一下。不过后来后来这个项目鸽了。（
 
 最近想要尝试不挂梯子用 `discord` 时想到了这个方法。不过很遗憾的是 `cloudflare` 会校验SNI，所以以失败告终。最后只能写这篇文章了。
+
+> 2020/01/12 更新
+> 
+> 后来发现，虽然CF会检查SNI，但是似乎不填SNI信息就行了。
 
 
 
