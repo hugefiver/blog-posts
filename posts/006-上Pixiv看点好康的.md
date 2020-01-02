@@ -56,6 +56,19 @@ tags:
   127.0.0.1	pixiv.pximg.net
   ```
 
+* Discord 网址
+
+  ``` pain
+  127.0.0.1	discordapp.com 
+  127.0.0.1	dl.discordapp.net
+  127.0.0.1	status.discordapp.com 
+  127.0.0.1	gateway.discordapp.gg
+  127.0.0.1	cdn.discordapp.com 
+  127.0.0.1	media.discordapp.net 
+  127.0.0.1	discordcdn.com
+  127.0.0.1	best.discord.media
+  ```
+
 ### 生成证书并安装
 
 在V2Ray的目录输入以下命令：
