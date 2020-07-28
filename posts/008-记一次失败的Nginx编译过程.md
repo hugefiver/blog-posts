@@ -13,9 +13,9 @@ tags:
 
 ## 下载依赖
 
-1. 首先我们需要下载一些依赖库的源码，其实用包管理安装也行，不过为了更加通用还是直接用源码吧。
+首先我们需要下载一些依赖库的源码，其实用包管理安装也行，不过为了更加通用还是直接用源码吧
 
-    我们需要的库有 `zlib` `prce` `boringssl`，其中`boringssl`是Google开发的`openssl`的分支，在这里替代`openssl`。
+1. 我们需要的库有 `zlib` `prce` `boringssl`，其中`boringssl`是Google开发的`openssl`的分支，在这里替代`openssl`。
 
     ```makefile
     dep: get-nginx get-zlib get-pcre get-ssl
