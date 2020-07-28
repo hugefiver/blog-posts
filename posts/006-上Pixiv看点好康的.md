@@ -44,7 +44,7 @@ tags:
 
 * Pixiv 网址
 
-  ``` pain
+  ``` plaintext
   127.0.0.1	www.pixiv.net
   127.0.0.1	pixiv.net
   127.0.0.1	source.pixiv.net
@@ -58,7 +58,7 @@ tags:
 
 * Discord 网址
 
-  ``` pain
+  ``` plaintext
   127.0.0.1	discordapp.com 
   127.0.0.1	dl.discordapp.net
   127.0.0.1	status.discordapp.com 

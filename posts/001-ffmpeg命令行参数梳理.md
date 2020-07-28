@@ -71,7 +71,7 @@ ffmpeg  [[输入文件选项]  -i 输入文件名]...  [输出选项]  <输出�
 
 #### 文件处理选项
 
-```text
+```plaintext
 -f    文件格式
 -c    编码
 -codec   同上
@@ -89,7 +89,7 @@ ffmpeg  [[输入文件选项]  -i 输入文件名]...  [输出选项]  <输出�
 
 #### 视频选项
 
-```text
+```plaintext
 -vframes <number> 输出视频帧数
 -vf   同上
 -r   输出视频帧率
@@ -103,7 +103,7 @@ ffmpeg  [[输入文件选项]  -i 输入文件名]...  [输出选项]  <输出�
 
 #### 音频选项
 
-```text
+```plaintext
 -aframes <number> 音频帧？？
 -aq <quality>   音频质量
 -ar             采集率（Hz）
@@ -117,7 +117,7 @@ ffmpeg  [[输入文件选项]  -i 输入文件名]...  [输出选项]  <输出�
 
 #### 字幕选项
 
-```text
+```plaintext
 -s size             set frame size (WxH or abbreviation)
 -sn                 disable subtitle
 -scodec codec       force subtitle codec ('copy' to copy stream)
