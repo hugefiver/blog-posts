@@ -15,7 +15,7 @@ tags:
 
 首先我们需要下载一些依赖库的源码，其实用包管理安装也行，不过为了更加通用还是直接用源码吧
 
-1. 我们需要的库有 `zlib` `prce` `boringssl`，其中`boringssl`是Google开发的`openssl`的分支，在这里替代`openssl`。
+我们需要的库有 `zlib` `prce` `boringssl`，其中`boringssl`是Google开发的`openssl`的分支，在这里替代`openssl`。
 
     ```makefile
     dep: get-nginx get-zlib get-pcre get-ssl
@@ -38,7 +38,7 @@ tags:
            rm $(pcre_file)
     ```
 
-2. 接着编译`boringssl`。
+接着编译`boringssl`。
 
     ```makefile
     build-ssl:
@@ -52,7 +52,7 @@ tags:
             cp build/crypto/libcrypto.a build/ssl/libssl.a .openssl/lib
     ```
 
-    不过`Makefile`每行命令在独立的shell里面运行确实有点烦，看着这么多东西其实全都是切换目录，其实也就那么点命令。
+不过`Makefile`每行命令在独立的shell里面运行确实有点烦，看着这么多东西其实全都是切换目录，其实也就那么点命令。
 
     ```shell
     cd lib/boringssl
@@ -65,7 +65,7 @@ tags:
     cp crypto/libcrypto.a ssl/libssl.a ../.openssl/lib
     ```
 
-3. 然后运行`make dep; make build-ssl`就会下载依赖。（如果没有`make` `cmake` `gcc/clang` `golang` 要先安装这些 ）
+然后运行`make dep; make build-ssl`就会下载依赖。（如果没有`make` `cmake` `gcc/clang` `golang` 要先安装这些 ）
 
 ## 编译Nginx
 
@@ -73,38 +73,38 @@ tags:
 
 接着生成Nginx的Makefile。
 
-```bash
-# 传入静态编译/链接参数，一般情况不用设置
-# export CC_OPTS="-static" LD_OPTS="-static"
-./configure \
- --prefix=/opt/nginx \
-    --sbin-path=/usr/sbin/nginx \
-    --user=nginx --group=nginx \
-    --modules-path=/opt/nginx/modules \
-    --conf-path=/etc/nginx/nginx.conf \
-    --error-log-path=/var/nginx/error.log \
-    --http-log-path=/var/nginx/access.log \
-    --with-cc-opt="-O2 $CC_OPTS" \
-    --with-ld-opt="$LD_OPTS" \
-    --with-file-aio \
-    --with-stream \
-    --with-stream_ssl_module \
-    --with-stream_ssl_preread_module \
-    --with-http_auth_request_module \
-    --with-http_ssl_module \
-    --with-http_v2_module \
-    --with-http_realip_module \
-    --with-http_addition_module \
-    --with-pcre=../$(pcre) --with-pcre-jit \
-    --with-zlib=../$(zlib) \
-    --with-openssl=../$(boringssl)
-```
+    ```bash
+    # 传入静态编译/链接参数，一般情况不用设置
+    # export CC_OPTS="-static" LD_OPTS="-static"
+    ./configure \
+    --prefix=/opt/nginx \
+        --sbin-path=/usr/sbin/nginx \
+        --user=nginx --group=nginx \
+        --modules-path=/opt/nginx/modules \
+        --conf-path=/etc/nginx/nginx.conf \
+        --error-log-path=/var/nginx/error.log \
+        --http-log-path=/var/nginx/access.log \
+        --with-cc-opt="-O2 $CC_OPTS" \
+        --with-ld-opt="$LD_OPTS" \
+        --with-file-aio \
+        --with-stream \
+        --with-stream_ssl_module \
+        --with-stream_ssl_preread_module \
+        --with-http_auth_request_module \
+        --with-http_ssl_module \
+        --with-http_v2_module \
+        --with-http_realip_module \
+        --with-http_addition_module \
+        --with-pcre=../$(pcre) --with-pcre-jit \
+        --with-zlib=../$(zlib) \
+        --with-openssl=../$(boringssl)
+    ```
 
 然后记得要执行一下以下命令。
 
-```bash
-touch ../boringssl/.openssl/include/openssl/ssl.h
-```
+    ```bash
+    touch ../boringssl/.openssl/include/openssl/ssl.h
+    ```
 
 这个操作看起来不起眼，但是非常关键。`make`的时候会根据这个文件判断使用的`openssl`是不是最新的编译版本，如果是过时的编译它就会自己编译一份。但是因为我们用的不是原版`openssl`所以并不可能编译成功。
 
@@ -116,18 +116,18 @@ touch ../boringssl/.openssl/include/openssl/ssl.h
 
 但是我在查看输出信息的时候看到了这样的警告。
 
-```plain
-cc -o objs/nginx \
-objs/src/core/nginx.o \
-...
--static -ldl -lpthread -lcrypt ../pcre-8.43/.libs/libpcre.a ../boringssl/.openssl/lib/libssl.a ../boringssl/.openssl/lib/libcrypto.a -ldl -lpthread ../zlib-1.2.11/libz.a \
--Wl,-E
-/usr/sbin/ld: objs/src/core/nginx.o: in function `ngx_load_module':
-src/core/nginx.c:1523: warning: Using 'dlopen' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
-/usr/sbin/ld: objs/src/os/unix/ngx_process_cycle.o: in function `ngx_worker_process_init':
-src/os/unix/ngx_process_cycle.c:836: warning: Using 'initgroups' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
-...
-```
+    ```
+    cc -o objs/nginx \
+    objs/src/core/nginx.o \
+    ...
+    -static -ldl -lpthread -lcrypt ../pcre-8.43/.libs/libpcre.a ../boringssl/.openssl/lib/libssl.a ../boringssl/.openssl/lib/libcrypto.a -ldl -lpthread ../zlib-1.2.11/libz.a \
+    -Wl,-E
+    /usr/sbin/ld: objs/src/core/nginx.o: in function `ngx_load_module':
+    src/core/nginx.c:1523: warning: Using 'dlopen' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+    /usr/sbin/ld: objs/src/os/unix/ngx_process_cycle.o: in function `ngx_worker_process_init':
+    src/os/unix/ngx_process_cycle.c:836: warning: Using 'initgroups' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+    ...
+    ```
 
 警告说：链接的时候发现即使是静态链接了，运行时使用某些glibc的函数时还是需要相应的动态链接库。
 
@@ -135,26 +135,26 @@ src/os/unix/ngx_process_cycle.c:836: warning: Using 'initgroups' in statically l
 
 既然这样，那就不静态链接libc了呗。查了一下`ld`的帮助，看到了这样的参数。
 
-```plain
--Bdynamic -dy -call_shared
-    Link against dynamic libraries.  ...
+    ```
+    -Bdynamic -dy -call_shared
+        Link against dynamic libraries.  ...
 
--Bstatic -dn -non_shared -static
-    Do not link against shared libraries.  ...
-```
+    -Bstatic -dn -non_shared -static
+        Do not link against shared libraries.  ...
+    ```
 
 那就把链接参数改成了这样。
 
-```plain
---with-ld-opt="-Wl,-dy -lc -Wl,-static"
-```
+    ```
+    --with-ld-opt="-Wl,-dy -lc -Wl,-static"
+    ```
 
 但是这样的参数会在`./configure`的时候报错。
 
-```plain
-checking for int size ...auto/types/sizeof: line 43: objs/autotest: No such file or directory
-  bytes
-```
+    ```
+    checking for int size ...auto/types/sizeof: line 43: objs/autotest: No such file or directory
+    bytes
+    ```
 
 emmm...好像是检查`sizeof`也就是各种基本类型的位长的时候出错了。
 
