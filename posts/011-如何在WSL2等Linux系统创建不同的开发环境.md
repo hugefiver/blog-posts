@@ -115,7 +115,7 @@ systemd-nspawn -a bash
 
 然后报错了：
 
-```plain
+```plaintext
 ➜  centos systemd-nspawn -a
 Spawning container centos on /opt/centos.
 Press ^] three times within 1s to kill container.
@@ -136,14 +136,14 @@ kernelCommandLine = vsyscall=emulate
 
 然后后我们看看是否生效：
 
-```plain
+```plaintext
 ➜  ~ cat /proc/cmdline
 initrd=\initrd.img panic=-1 pty.legacy_count=0 nr_cpus=16 vsyscall=emulate
 ```
 
 再次使用`systemd-nspawn`，就能进入系统了.
 
-```plain
+```plaintext
 ➜  centos systemd-nspawn -a
 Spawning container centos on /opt/centos.
 Press ^] three times within 1s to kill container.
@@ -175,7 +175,7 @@ yum groupinstall "development tools"
 
 然后就能用来编译需要的程序了。
 
-```plain
+```plaintext
 $ gcc -v
 Using built-in specs.
 Target: x86_64-redhat-linux
